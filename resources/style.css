@@ -1,0 +1,30 @@
+#calculator {
+  background-color: #ffb3b3;
+  margin: 0 auto;
+  width: 400px;
+  height: 800px;
+}
+.title {
+  text-align: center;
+  font-size: 3rem;
+  padding-top: 1rem;
+  font-family: "Courier New", Courier, monospace;
+}
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  padding: 1rem;
+  grid-auto-rows: 100px;
+}
+
+.calc-display {
+  height: 100px;
+  width: 80%;
+  margin: 2rem auto;
+  background-color: #ffdba4;
+}
+
+.add {
+  grid-row: span 2;
+}
