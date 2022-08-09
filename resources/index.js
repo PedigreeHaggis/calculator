@@ -14,6 +14,7 @@ btns.addEventListener("click", (e) => {
       btn.classList.remove("is-depressed")
     );
 
+    // update display as long as number keys are being pressed
     if (!action) {
       if (displayedNum === "0" || previousBtnType === "operator") {
         display.textContent = btnContent;
@@ -23,6 +24,7 @@ btns.addEventListener("click", (e) => {
       calculator.dataset.previousBtnType = "number";
     }
 
+    // ensure only 1 decimal place can be added
     if (action === "decimal") {
       if (!displayedNum.includes(".")) {
         display.textContent = displayedNum + ".";
@@ -40,6 +42,7 @@ btns.addEventListener("click", (e) => {
       calculator.dataset.previousBtnType = "calculate";
     }
 
+    // carry out calculations based on the operator chosen and chain
     if (
       action === "add" ||
       action === "subtract" ||
@@ -50,6 +53,10 @@ btns.addEventListener("click", (e) => {
       const operator = calculator.dataset.operator;
       const secondValue = displayedNum;
 
+      /* if the first number and operator exist and extra numbers have been added,
+        assign the result to first number to continue chaining.
+        if there is no first number assign the displayed number as the first number.
+      */
       if (firstValue && operator && previousBtnType !== "operator") {
         const resultVal = operate(firstValue, operator, secondValue);
         display.textContent = resultVal;
@@ -58,11 +65,13 @@ btns.addEventListener("click", (e) => {
         calculator.dataset.firstValue = displayedNum;
       }
 
+      // assign operator and change operator button display.
       btn.classList.add("is-depressed");
       calculator.dataset.previousBtnType = "operator";
       calculator.dataset.operator = action;
     }
 
+    // calculate if equals key is pressed
     if (action === "calculate") {
       const firstValue = calculator.dataset.firstValue;
       const operator = calculator.dataset.operator;
@@ -72,6 +81,7 @@ btns.addEventListener("click", (e) => {
   }
 });
 
+// carry out requested action
 function operate(n1, operator, n2) {
   let result = "";
 
