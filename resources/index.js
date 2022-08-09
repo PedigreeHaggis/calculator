@@ -1,109 +1,96 @@
-function add(n1, n2) {
-  return n1 + n2;
-}
+const calculator = document.querySelector(".calculator");
+const display = document.querySelector(".calculator-display");
+const btns = calculator.querySelector(".calculator-btns");
 
-function subtract(n1, n2) {
-  return n1 - n2;
-}
+btns.addEventListener("click", (e) => {
+  if (e.target.matches("button")) {
+    const btn = e.target;
+    const action = btn.dataset.action;
+    const btnContent = btn.textContent;
+    const displayedNum = display.textContent;
+    const previousBtnType = calculator.dataset.previousBtnType;
 
-function multiply(n1, n2) {
-  return n1 * n2;
-}
+    Array.from(btn.parentNode.children).forEach((btn) =>
+      btn.classList.remove("is-depressed")
+    );
 
-function divide(n1, n2) {
-  return n1 / n2;
-}
+    if (!action) {
+      if (displayedNum === "0" || previousBtnType === "operator") {
+        display.textContent = btnContent;
+      } else {
+        display.textContent = displayedNum + btnContent;
+      }
+      calculator.dataset.previousBtnType = "number";
+    }
 
-function operate(n1, n2, operator) {
+    if (action === "decimal") {
+      if (!displayedNum.includes(".")) {
+        display.textContent = displayedNum + ".";
+      } else if (previousBtnType === "operator") {
+        display.textContent = "0.";
+      }
+      calculator.dataset.previousBtnType = "decimal";
+    }
+
+    if (action === "clear") {
+      calculator.dataset.previousBtnType = "clear";
+    }
+
+    if (action === "calculate") {
+      calculator.dataset.previousBtnType = "calculate";
+    }
+
+    if (
+      action === "add" ||
+      action === "subtract" ||
+      action === "multiply" ||
+      action === "divide"
+    ) {
+      const firstValue = calculator.dataset.firstValue;
+      const operator = calculator.dataset.operator;
+      const secondValue = displayedNum;
+
+      if (firstValue && operator && previousBtnType !== "operator") {
+        const resultVal = operate(firstValue, operator, secondValue);
+        display.textContent = resultVal;
+        calculator.dataset.firstValue = resultVal;
+      } else {
+        calculator.dataset.firstValue = displayedNum;
+      }
+
+      btn.classList.add("is-depressed");
+      calculator.dataset.previousBtnType = "operator";
+      calculator.dataset.operator = action;
+    }
+
+    if (action === "calculate") {
+      const firstValue = calculator.dataset.firstValue;
+      const operator = calculator.dataset.operator;
+      const secondValue = displayedNum;
+      display.textContent = operate(firstValue, operator, secondValue);
+    }
+  }
+});
+
+function operate(n1, operator, n2) {
+  let result = "";
+
   switch (operator) {
-    case "+":
-      return add(n1, n2);
-    case "-":
-      return subtract(n1, n2);
-    case "*":
-      return multiply(n1, n2);
-    case "/":
-      return divide(n1, n2);
+    case "add":
+      result = parseFloat(n1) + parseFloat(n2);
+      break;
+    case "subtract":
+      result = parseFloat(n1) - parseFloat(n2);
+      break;
+    case "multiply":
+      result = parseFloat(n1) * parseFloat(n2);
+      break;
+    case "divide":
+      result = parseFloat(n1) / parseFloat(n2);
+      break;
     default:
       break;
   }
+
+  return result;
 }
-
-let firstNum = "";
-let secondNum = "";
-let result = "";
-let lastAction = "";
-let action = "";
-
-const numberButtons = document.querySelectorAll(".number");
-const operatorButtons = document.querySelectorAll(".operator");
-const equalsButton = document.querySelector(".equals");
-const backspaceButton = document.querySelector(".backspace");
-const clearButton = document.querySelector(".clear");
-const display = document.querySelector(".calc-display");
-
-numberButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (
-      display.textContent === "0" ||
-      display.textContent === "" ||
-      display.textContent === result.toString()
-    ) {
-      display.textContent = btn.textContent;
-      result = "";
-    } else {
-      display.textContent = display.textContent + btn.textContent;
-    }
-  });
-});
-
-operatorButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if(display.textContent === firstNum.toString()){display.textContent ='0'};
-    lastAction = action;
-    if (btn.classList.contains("add")) {
-      action = "+";
-    } else if (btn.classList.contains("subtract")) {
-      action = "-";
-    } else if (btn.classList.contains("multiply")) {
-      action = "*";
-    } else if (btn.classList.contains("divide")) {
-      action = "/";
-    }
-
-    if(!firstNum) {
-      firstNum = Number(display.textContent);
-      display.textContent = "0";
-    } else{
-      secondNum = Number(display.textContent);
-      display.textContent = '0'
-    }
-
-    if (firstNum && secondNum && lastAction) {
-      result = operate(firstNum, secondNum, lastAction);
-      firstNum = result;
-      secondNum = "";
-      display.textContent = firstNum;
-    }
-  });
-});
-
-equalsButton.addEventListener("click", () => {
-  lastAction = action;
-  if (!secondNum) {
-    secondNum = Number(display.textContent);
-  }
-
-  if (firstNum && secondNum) {
-    result = operate(firstNum, secondNum, action);
-    firstNum = result;
-    secondNum = "";
-
-  }
-
-  if (!result) {
-    display.textContent = "0";
-  } else {
-    display.textContent = firstNum;
-  }
-});

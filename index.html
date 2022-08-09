@@ -4,39 +4,32 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/resources/style.css" />
-    <script src="/resources/index.js" defer></script>
+    <link rel="stylesheet" href="resources/style.css" />
+    <script src="resources/index.js" defer></script>
     <title>Calculator</title>
   </head>
   <body>
-    <section id="calculator" class="calc">
-      <div class="calc-container">
-        <p class="title">Calculator</p>
-        <div class="calc-display">0</div>
-        <div class="calc-buttons">
-          <button class="clear btn" data-action="delete">delete</button>
-          <button class="backspace btn" data-action="backspace">
-            backspace
-          </button>
-          <button class="operator power btn">X^x</button>
-          <button class="operator divide btn">/</button>
-          <button class="number seven btn">7</button>
-          <button class="number eight btn">8</button>
-          <button class="number nine btn">9</button>
-          <button class="operator multiply btn">*</button>
-          <button class="number four btn">4</button>
-          <button class="number five btn">5</button>
-          <button class="number six btn">6</button>
-          <button class="operator subtract btn">-</button>
-          <button class="number one btn">1</button>
-          <button class="number two btn">2</button>
-          <button class="number three btn">3</button>
-          <button class="operator add btn">+</button>
-          <button class="number zero btn">0</button>
-          <button class="decimal btn" data-action="decimal">.</button>
-          <button class="equals btn" data-action="equals">=</button>
-        </div>
+    <div class="calculator">
+      <div class="calculator-display">0</div>
+      <div class="calculator-btns">
+        <button class="operator-btn" data-action="add">+</button>
+        <button class="operator-btn" data-action="subtract">-</button>
+        <button class="operator-btn" data-action="multiply">&times;</button>
+        <button class="operator-btn" data-action="divide">&divide;</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>0</button>
+        <button data-action="decimal">.</button>
+        <button data-action="clear">AC</button>
+        <button class="equals-btn" data-action="calculate">=</button>
       </div>
-    </section>
+    </div>
   </body>
 </html>
