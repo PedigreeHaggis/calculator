@@ -12,27 +12,29 @@
     <section id="calculator" class="calc">
       <div class="calc-container">
         <p class="title">Calculator</p>
-        <div class="calc-display"></div>
+        <div class="calc-display">0</div>
         <div class="calc-buttons">
-          <button class="clear btn">delete</button>
-          <button class="backspace btn">backspace</button>
-          <button class="power btn">X^x</button>
-          <button class="divide btn">/</button>
+          <button class="clear btn" data-action="delete">delete</button>
+          <button class="backspace btn" data-action="backspace">
+            backspace
+          </button>
+          <button class="operator power btn">X^x</button>
+          <button class="operator divide btn">/</button>
           <button class="number seven btn">7</button>
           <button class="number eight btn">8</button>
           <button class="number nine btn">9</button>
-          <button class="multipy btn">*</button>
+          <button class="operator multiply btn">*</button>
           <button class="number four btn">4</button>
           <button class="number five btn">5</button>
           <button class="number six btn">6</button>
-          <button class="number subtract btn">-</button>
+          <button class="operator subtract btn">-</button>
           <button class="number one btn">1</button>
           <button class="number two btn">2</button>
           <button class="number three btn">3</button>
-          <button class="add btn">+</button>
+          <button class="operator add btn">+</button>
           <button class="number zero btn">0</button>
-          <button class="decimal btn">.</button>
-          <button class="equals btn">=</button>
+          <button class="decimal btn" data-action="decimal">.</button>
+          <button class="equals btn" data-action="equals">=</button>
         </div>
       </div>
     </section>
