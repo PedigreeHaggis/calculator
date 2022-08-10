@@ -113,18 +113,21 @@ btns.addEventListener("click", (e) => {
 
 // carry out requested action
 function operate(n1, operator, n2) {
+  let result;
   switch (operator) {
     case "add":
-      return (parseFloat(n1) + parseFloat(n2)).toFixed(5);
+      result = parseFloat(n1) + parseFloat(n2);
+      return Number.parseFloat(result.toFixed(2));
     case "subtract":
-      return (parseFloat(n1) - parseFloat(n2)).toFixed(5);
+      result = parseFloat(n1) - parseFloat(n2);
+      return Number.parseFloat(result.toFixed(2));
     case "multiply":
-      return (parseFloat(n1) * parseFloat(n2)).toFixed(5);
+      result = parseFloat(n1) * parseFloat(n2);
+      return Number.parseFloat(result.toFixed(2));
     case "divide":
-      return (parseFloat(n1) / parseFloat(n2)).toFixed(5);
+      result = parseFloat(n1) / parseFloat(n2);
+      return Number.parseFloat(result.toFixed(2));
     default:
       break;
   }
-
-  return result;
 }
