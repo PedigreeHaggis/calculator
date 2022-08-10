@@ -14,9 +14,17 @@ btns.addEventListener("click", (e) => {
       btn.classList.remove("is-depressed")
     );
 
+    if (action !== "clear") {
+      const clearButton = document.querySelector("[data-action=clear]");
+      clearButton.textContent = "CE";
+    }
     // update display as long as number keys are being pressed
     if (!action) {
-      if (displayedNum === "0" || previousBtnType === "operator") {
+      if (
+        displayedNum === "0" ||
+        previousBtnType === "operator" ||
+        previousBtnType === "calculate"
+      ) {
         display.textContent = btnContent;
       } else {
         display.textContent = displayedNum + btnContent;
@@ -35,6 +43,15 @@ btns.addEventListener("click", (e) => {
     }
 
     if (action === "clear") {
+      display.textContent = "0";
+      if (btn.textContent === "AC") {
+        calculator.dataset.firstValue = "";
+        calculator.dataset.modValue = "";
+        calculator.dataset.operator = "";
+        calculator.dataset.previousBtnType = "";
+      } else {
+        btn.textContent = "AC";
+      }
       calculator.dataset.previousBtnType = "clear";
     }
 
@@ -57,7 +74,12 @@ btns.addEventListener("click", (e) => {
         assign the result to first number to continue chaining.
         if there is no first number assign the displayed number as the first number.
       */
-      if (firstValue && operator && previousBtnType !== "operator") {
+      if (
+        firstValue &&
+        operator &&
+        previousBtnType !== "operator" &&
+        previousBtnType !== "calculate"
+      ) {
         const resultVal = operate(firstValue, operator, secondValue);
         display.textContent = resultVal;
         calculator.dataset.firstValue = resultVal;
@@ -73,9 +95,17 @@ btns.addEventListener("click", (e) => {
 
     // calculate if equals key is pressed
     if (action === "calculate") {
-      const firstValue = calculator.dataset.firstValue;
+      let firstValue = calculator.dataset.firstValue;
       const operator = calculator.dataset.operator;
-      const secondValue = displayedNum;
+      let secondValue = displayedNum;
+      if (firstValue) {
+        if (previousBtnType === "calculate") {
+          firstValue = displayedNum;
+          secondValue = calculator.dataset.modValue;
+        }
+        display.textContent = operate(firstValue, operator, secondValue);
+      }
+      calculator.dataset.modValue = secondValue;
       display.textContent = operate(firstValue, operator, secondValue);
     }
   }
@@ -83,21 +113,15 @@ btns.addEventListener("click", (e) => {
 
 // carry out requested action
 function operate(n1, operator, n2) {
-  let result = "";
-
   switch (operator) {
     case "add":
-      result = parseFloat(n1) + parseFloat(n2);
-      break;
+      return (parseFloat(n1) + parseFloat(n2)).toFixed(5);
     case "subtract":
-      result = parseFloat(n1) - parseFloat(n2);
-      break;
+      return (parseFloat(n1) - parseFloat(n2)).toFixed(5);
     case "multiply":
-      result = parseFloat(n1) * parseFloat(n2);
-      break;
+      return (parseFloat(n1) * parseFloat(n2)).toFixed(5);
     case "divide":
-      result = parseFloat(n1) / parseFloat(n2);
-      break;
+      return (parseFloat(n1) / parseFloat(n2)).toFixed(5);
     default:
       break;
   }
